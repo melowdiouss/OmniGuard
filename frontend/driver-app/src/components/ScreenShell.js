@@ -1,25 +1,33 @@
 import React from 'react';
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
 
-export function ScreenShell({ title, subtitle, children }) {
+export function ScreenShell({ title, subtitle, children, eyebrow, alignTop = false }) {
   return (
     <SafeAreaView style={styles.root}>
       <View style={styles.content}>
+        {eyebrow ? <Text style={styles.eyebrow}>{eyebrow}</Text> : null}
         <Text style={styles.title}>{title}</Text>
         {subtitle ? <Text style={styles.subtitle}>{subtitle}</Text> : null}
-        <View style={styles.body}>{children}</View>
+        <View style={[styles.body, alignTop && styles.bodyTop]}>{children}</View>
       </View>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  root: { flex: 1, backgroundColor: '#F7F9FC' },
+  root: { flex: 1, backgroundColor: '#F4F8F3' },
   content: {
     flex: 1,
     paddingHorizontal: 20,
     paddingVertical: 16,
     gap: 12,
+  },
+  eyebrow: {
+    fontSize: 13,
+    fontWeight: '700',
+    letterSpacing: 1,
+    textTransform: 'uppercase',
+    color: '#166534',
   },
   title: {
     fontSize: 32,
@@ -34,5 +42,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     gap: 12,
+  },
+  bodyTop: {
+    justifyContent: 'flex-start',
   },
 });

@@ -11,21 +11,23 @@ export function ReviewConfirmScreen({ navigation }) {
   const packetCode = useBrandStore((s) => s.packetCode);
   const productImageUri = useBrandStore((s) => s.productImageUri);
   const setSubmissionState = useBrandStore((s) => s.setSubmissionState);
+  const setLatestRecord = useBrandStore((s) => s.setLatestRecord);
+  const capturedAt = new Date().toISOString();
 
   async function onSubmit() {
     setSubmitting(true);
     setSubmissionState('pending');
 
     const payload = {
-      brandId: 'brand-placeholder',
       productCode,
       packetCode,
       productImageUri,
-      capturedAt: new Date().toISOString(),
+      capturedAt,
     };
 
     try {
-      await brandApi.createBlockchainRecord(payload);
+      const response = await brandApi.createBlockchainRecord(payload);
+      setLatestRecord(response.data);
       setSubmissionState('success');
     } catch {
       setSubmissionState('failed');
@@ -36,16 +38,28 @@ export function ReviewConfirmScreen({ navigation }) {
   }
 
   return (
-    <ScreenShell title="Review" subtitle="Confirm details for blockchain entry.">
+    <ScreenShell
+      eyebrow="Step 4 of 4"
+      title="Review Ledger Registration"
+      subtitle="Confirm the shipment summary before writing to the demo ledger."
+    >
       <View style={styles.card}>
-        <Text style={styles.row}>Product Code: {productCode || 'Missing'}</Text>
-        <Text style={styles.row}>Packet Code: {packetCode || 'Missing'}</Text>
-        <Text style={styles.row}>Image: {productImageUri ? 'Captured' : 'Missing'}</Text>
+        <Text style={styles.label}>Product code</Text>
+        <Text style={styles.row}>{productCode || 'Missing'}</Text>
+        <Text style={styles.label}>Packet code</Text>
+        <Text style={styles.row}>{packetCode || 'Missing'}</Text>
+        <Text style={styles.label}>Image source</Text>
+        <Text style={styles.row}>
+          {productImageUri ? (productImageUri.startsWith('demo://') ? 'Demo sample image' : 'Captured image') : 'Missing'}
+        </Text>
+        <Text style={styles.label}>Timeline status</Text>
+        <Text style={styles.row}>Ready to be registered on ledger at {new Date(capturedAt).toLocaleTimeString()}</Text>
       </View>
       <LargeActionButton
-        label={submitting ? 'Submitting...' : 'Submit to Blockchain'}
+        label={submitting ? 'Registering...' : 'Register on Ledger'}
         onPress={onSubmit}
         disabled={submitting || !productCode || !packetCode || !productImageUri}
+        variant="success"
       />
     </ScreenShell>
   );
@@ -60,8 +74,15 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     gap: 8,
   },
+  label: {
+    fontSize: 13,
+    fontWeight: '700',
+    color: '#1D4ED8',
+    textTransform: 'uppercase',
+  },
   row: {
     fontSize: 17,
     color: '#0F172A',
+    fontWeight: '600',
   },
 });

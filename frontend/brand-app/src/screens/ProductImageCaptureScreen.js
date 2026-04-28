@@ -30,18 +30,42 @@ export function ProductImageCaptureScreen({ navigation }) {
   }
 
   return (
-    <ScreenShell title="Capture Product Image" subtitle="Take a clear photo of product.">
+    <ScreenShell
+      eyebrow="Step 2 of 4"
+      title="Capture Product Evidence"
+      subtitle="Attach a product image or use the sample asset."
+    >
       <View style={styles.previewWrap}>
-        {productImageUri ? (
+        {productImageUri && !productImageUri.startsWith('demo://') ? (
           <Image source={{ uri: productImageUri }} style={styles.preview} />
+        ) : productImageUri ? (
+          <Text style={styles.placeholder}>Demo sample image attached</Text>
         ) : (
           <Text style={styles.placeholder}>No image captured</Text>
         )}
       </View>
       {!productImageUri ? (
-        <LargeActionButton label={busy ? 'Capturing...' : 'Capture Image'} onPress={onCaptureImage} disabled={busy} />
+        <>
+          <LargeActionButton
+            label={busy ? 'Capturing...' : 'Capture Image'}
+            onPress={onCaptureImage}
+            disabled={busy}
+          />
+          <LargeActionButton
+            label="Use Sample Image"
+            onPress={() => setProductImageUri('demo://sample-image')}
+            variant="secondary"
+          />
+        </>
       ) : (
-        <LargeActionButton label="Continue" onPress={() => navigation.navigate('PacketCodeScan')} />
+        <>
+          <Text style={styles.helperText}>
+            {productImageUri.startsWith('demo://')
+              ? 'Demo sample attached to this record.'
+              : 'Captured image attached to this record.'}
+          </Text>
+          <LargeActionButton label="Continue" onPress={() => navigation.navigate('PacketCodeScan')} />
+        </>
       )}
     </ScreenShell>
   );
@@ -60,4 +84,9 @@ const styles = StyleSheet.create({
   },
   preview: { width: '100%', height: '100%' },
   placeholder: { color: '#64748B', fontSize: 18 },
+  helperText: {
+    textAlign: 'center',
+    color: '#334155',
+    fontSize: 15,
+  },
 });

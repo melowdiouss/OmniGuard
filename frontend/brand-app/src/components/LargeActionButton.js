@@ -1,10 +1,26 @@
 import React from 'react';
 import { Pressable, StyleSheet, Text } from 'react-native';
 
-export function LargeActionButton({ label, onPress, disabled }) {
+export function LargeActionButton({ label, onPress, disabled, variant = 'primary' }) {
   return (
-    <Pressable style={[styles.button, disabled && styles.disabled]} onPress={onPress} disabled={disabled}>
-      <Text style={styles.label}>{label}</Text>
+    <Pressable
+      style={[
+        styles.button,
+        variant === 'secondary' && styles.secondaryButton,
+        variant === 'success' && styles.successButton,
+        disabled && styles.disabled,
+      ]}
+      onPress={onPress}
+      disabled={disabled}
+    >
+      <Text
+        style={[
+          styles.label,
+          variant === 'secondary' && styles.secondaryLabel,
+        ]}
+      >
+        {label}
+      </Text>
     </Pressable>
   );
 }
@@ -19,6 +35,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingHorizontal: 18,
   },
+  secondaryButton: {
+    backgroundColor: '#DBEAFE',
+    borderWidth: 1,
+    borderColor: '#93C5FD',
+  },
+  successButton: {
+    backgroundColor: '#15803D',
+  },
   disabled: { opacity: 0.5 },
   label: { color: '#FFFFFF', fontSize: 22, fontWeight: '700' },
+  secondaryLabel: {
+    color: '#1E3A8A',
+  },
 });

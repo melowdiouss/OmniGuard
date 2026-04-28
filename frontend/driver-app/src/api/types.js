@@ -2,36 +2,62 @@
  * API contracts only. No backend logic here.
  */
 
-export const ScanSyncStatus = {
-  PENDING: 'PENDING',
-  SYNCED: 'SYNCED',
-  FAILED: 'FAILED',
-};
+/**
+ * @typedef {Object} DemoSession
+ * @property {{ id: string, email: string, role: string, orgId: string, displayName: string }} user
+ * @property {string} accessToken
+ * @property {string} refreshToken
+ */
+
+/**
+ * @typedef {Object} DriverRecordSummary
+ * @property {string} recordId
+ * @property {string} productCode
+ * @property {string} packetCode
+ * @property {string} blockchainTxHash
+ * @property {'registered'} status
+ * @property {string} createdAt
+ */
 
 /**
  * @typedef {Object} SubmitScanRequest
- * @property {string} shipmentId
- * @property {string} scanPayload
- * @property {string} capturedAt
+ * @property {string} packetCode
+ * @property {'pass'|'flag'} demoScenario
  */
 
 /**
  * @typedef {Object} SubmitScanResponse
  * @property {string} scanId
- * @property {'QUEUED'|'ACCEPTED'} status
+ * @property {string} recordId
+ * @property {string} packetCode
+ * @property {'queued'} status
+ * @property {string} message
+ * @property {'pass'|'flag'} demoScenario
  */
 
 /**
  * @typedef {Object} ScanResultResponse
  * @property {string} scanId
- * @property {'SUCCESS'|'FAILURE'|'PENDING'} status
- * @property {string=} reasonCode
+ * @property {string} recordId
+ * @property {string} packetCode
+ * @property {'verified'|'flagged'} status
+ * @property {'PASS'|'HOLD'} decision
+ * @property {number} aiConfidence
+ * @property {string[]} reasons
+ * @property {string} recommendedAction
+ * @property {string} scannedAt
  */
 
 /**
  * @typedef {Object} DriverHistoryItem
  * @property {string} scanId
- * @property {string} shipmentId
+ * @property {string} recordId
+ * @property {string} packetCode
+ * @property {'verified'|'flagged'} status
+ * @property {'PASS'|'HOLD'} decision
+ * @property {number} aiConfidence
+ * @property {string[]} reasons
+ * @property {string} recommendedAction
  * @property {string} scannedAt
- * @property {'SUCCESS'|'FAILURE'|'PENDING'} status
+ * @property {'pass'|'flag'} demoScenario
  */

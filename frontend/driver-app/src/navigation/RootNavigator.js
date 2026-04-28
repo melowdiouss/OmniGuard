@@ -19,7 +19,7 @@ export function RootNavigator() {
       }}
     >
       <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="Home" component={HomeScreen} options={{ title: 'Home' }} />
+      <Stack.Screen name="Home" component={HomeScreen} options={{ title: 'Dashboard' }} />
       <Stack.Screen name="Scan" component={ScanScreen} options={{ title: 'Scan' }} />
       <Stack.Screen
         name="CaptureValidation"

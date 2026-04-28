@@ -1,6 +1,7 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { BrandLoginScreen } from '../screens/BrandLoginScreen';
+import { BrandDashboardScreen } from '../screens/BrandDashboardScreen';
 import { ProductCodeScanScreen } from '../screens/ProductCodeScanScreen';
 import { ProductImageCaptureScreen } from '../screens/ProductImageCaptureScreen';
 import { PacketCodeScanScreen } from '../screens/PacketCodeScanScreen';
@@ -13,6 +14,7 @@ export function RootNavigator() {
   return (
     <Stack.Navigator initialRouteName="BrandLogin" screenOptions={{ headerTitleAlign: 'center' }}>
       <Stack.Screen name="BrandLogin" component={BrandLoginScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="BrandDashboard" component={BrandDashboardScreen} options={{ title: 'Dashboard' }} />
       <Stack.Screen name="ProductCodeScan" component={ProductCodeScanScreen} options={{ title: 'Product Code' }} />
       <Stack.Screen name="ProductImageCapture" component={ProductImageCaptureScreen} options={{ title: 'Product Image' }} />
       <Stack.Screen name="PacketCodeScan" component={PacketCodeScanScreen} options={{ title: 'Packet Code' }} />

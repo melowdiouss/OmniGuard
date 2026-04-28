@@ -1,0 +1,14 @@
+node_modules/
+**/node_modules/
+
+android/build/
+ios/build/
+**/android/build/
+**/ios/build/
+
+.expo/
+dist/
+build/
+
+.DS_Store
+*.log

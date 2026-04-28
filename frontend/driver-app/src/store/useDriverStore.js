@@ -1,35 +1,46 @@
 import { create } from 'zustand';
-import { enqueueScan, getQueuedScans } from '../services/scanQueue';
+import { setAuthToken } from '../api/client';
 
-export const useDriverStore = create((set, get) => ({
+export const useDriverStore = create((set) => ({
   isLoggedIn: false,
-  latestScanPayload: '',
+  session: null,
+  latestScanPayload: null,
+  selectedScenario: 'pass',
   lastResult: null,
-  queueCount: 0,
 
-  login() {
-    set({ isLoggedIn: true });
+  login(session) {
+    setAuthToken(session?.accessToken || null);
+    set({ isLoggedIn: true, session });
   },
 
   logout() {
-    set({ isLoggedIn: false });
+    setAuthToken(null);
+    set({
+      isLoggedIn: false,
+      session: null,
+      latestScanPayload: null,
+      selectedScenario: 'pass',
+      lastResult: null,
+    });
   },
 
   setLatestScanPayload(payload) {
     set({ latestScanPayload: payload });
   },
 
+  setSelectedScenario(selectedScenario) {
+    set({ selectedScenario });
+  },
+
   setResult(result) {
     set({ lastResult: result });
   },
 
-  async queueScanLocally(scanItem) {
-    const updated = await enqueueScan(scanItem);
-    set({ queueCount: updated.length });
-  },
-
-  async refreshQueueCount() {
-    const queued = await getQueuedScans();
-    set({ queueCount: queued.length });
+  resetFlow() {
+    set({
+      latestScanPayload: null,
+      selectedScenario: 'pass',
+      lastResult: null,
+    });
   },
 }));

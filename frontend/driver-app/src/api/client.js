@@ -1,7 +1,10 @@
-import axios from 'axios';
+import axios from "axios";
+
+export const DEFAULT_API_BASE_URL =
+  process.env.EXPO_PUBLIC_API_BASE_URL || "http://127.0.0.1:3000";
 
 export const apiClient = axios.create({
-  baseURL: process.env.EXPO_PUBLIC_API_BASE_URL || 'http://localhost:3000',
+  baseURL: DEFAULT_API_BASE_URL,
   timeout: 10000,
 });
 
