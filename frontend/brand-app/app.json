@@ -1,0 +1,10 @@
+{
+  "expo": {
+    "name": "OmniGuard Brand",
+    "slug": "omniguard-brand",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "assetBundlePatterns": ["**/*"]
+  }
+}
